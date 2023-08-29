@@ -1,21 +1,40 @@
 print("NAVADEEP 192124116")
-import time
+print(" Alpha Beta Pruning problem")
+MAX, MIN = 1000, -1000
 
-class Game:
-    def __init__(self):
-        self.initialize_game()
+def minimax(depth, nodeIndex, maximizingPlayer,
+			values, alpha, beta):
+	if depth == 3:
+		return values[nodeIndex]
+	if maximizingPlayer:
+		best = MIN
+		for i in range(0, 2):
+			
+			val = minimax(depth + 1, nodeIndex * 2 + i,
+						False, values, alpha, beta)
+			best = max(best, val)
+			alpha = max(alpha, best)
+			if beta <= alpha:
+				break		
+		return best
+	
+	else:
+		best = MAX
+		for i in range(0, 2):
+		
+			val = minimax(depth + 1, nodeIndex * 2 + i,
+							True, values, alpha, beta)
+			best = min(best, val)
+			beta = min(beta, best)
+			if beta <= alpha:
+				break
+		return best
+if __name__ == "__main__":
 
-    def initialize_game(self):
-        self.current_state = [['.','.','.'],
-                              ['.','.','.'],
-                              ['.','.','.']]
-
-        # Player X always plays first
-        self.player_turn = 'X'
-
-    def draw_board(self):
-        for i in range(0, 3):
-            for j in range(0, 3):
-                print('{}|'.format(self.current_state[i][j]), end=" ")
-            print()
-        print()
+	values=[]
+	n=int(eval(input("enter the noof numbers::")))
+	print("enter values::")
+	for i in range(n):
+			no=eval(input())
+			values.append(no)
+	print("The optimal value is :", minimax(0, 0, True, values, MIN, MAX))
