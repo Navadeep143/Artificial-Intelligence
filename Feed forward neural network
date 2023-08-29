@@ -1,24 +1,18 @@
-print("NAVADEEP 192124116")
+print("NAVADEEP")
+print("192124116")
+print("feed forward neuralnetwork")
 import numpy as np
-import tensorflow as tf
-from tensorflow import keras
-
-np.random.seed(42)
-X = np.random.rand(100, 5)
-y = np.random.randint(2, size=(100,))
-
-model = keras.Sequential([
-    keras.layers.Input(shape=(5,)),
-    keras.layers.Dense(16, activation='relu'),
-    keras.layers.Dense(8, activation='relu'),
-    keras.layers.Dense(1, activation='sigmoid')
-])
-
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-model.fit(X, y, epochs=10, batch_size=16)
-
-sample_input = np.random.rand(5)
-predictions = model.predict(np.array([sample_input]))
-print("Sample Input:", sample_input)
-print("Predictions:", predictions)
+def relu(n):
+    return max(0, n)
+def feedforward(input_data, weights):
+    node0 = relu(np.dot(input_data, weights[0]))
+    node1 = relu(np.dot(input_data, weights[1]))
+    node2 = relu(np.dot(np.array([node0, node1]), weights[2]))
+    node3 = relu(np.dot(np.array([node0, node1]), weights[3]))
+    output = relu(np.dot(np.array([node2, node3]), weights[4]))
+    return output
+inp = np.array([[-1, 2], [2, 2], [3, 3]])
+weights = [np.array([3, 3]), np.array([1, 5]), np.array([3, 3]), np.array([1, 5]), np.array([2, -1])]
+for x in inp:
+    output = feedforward(x, weights)
+    print(f"Input: {x}, Output: {output}")
